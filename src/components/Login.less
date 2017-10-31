@@ -1,0 +1,35 @@
+.login-page {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 100%;
+	background: rgb(194, 219, 224);
+	font-family: sans-serif;
+	color: #444;
+	padding: 20px;
+	&__info {
+		padding-right: 100px;
+		.title {
+			font-size: 45px;
+			color: #fff;
+			text-shadow: 3px 6px 3px lightblue;
+		}
+		.desc {
+			margin-top: 20px;
+			text-transform: uppercase;
+			font-size: 18px;
+			letter-spacing: 11px;
+			color: darkorange;
+		}
+	}
+	&__img {
+		border: 5px solid #fff;
+		box-shadow: 5px 5px 15px 0 rgba(0,0,0,.15);
+		user-select: none;
+		img {
+			user-select: none;
+			vertical-align: top;
+		}
+	}
+}
