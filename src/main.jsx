@@ -8,6 +8,10 @@ import Login from './components/Login.jsx';
 
 import './styles/base.less';
 
+window.handleGoogleApiLoader = () => {
+	console.log("api loaded!");
+}
+
 ReactDOM.render(
 	<MuiThemeProvider>
 		<Router history={hashHistory}>
