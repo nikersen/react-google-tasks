@@ -5,12 +5,14 @@ import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ListIcon from 'material-ui/svg-icons/action/list';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import FolderIcon from 'material-ui/svg-icons/file/folder';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import ExitIcon from 'material-ui/svg-icons/action/exit-to-app';
 
 import TaskListsActions from '../actions/TaskListsActions';
 import TaskListsStore from '../stores/TaskListsStore';
+import TaskListCreateModal from './TaskListCreateModal.jsx';
 
 import './TaskListsPage.less';
 
@@ -24,9 +26,13 @@ class TaskListsPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			...getStateFromFlux()
+			...getStateFromFlux(),
+			isCreatingTaskList: false
 		}
 		this._onChange = this._onChange.bind(this);
+		this.handleAddTaskList = this.handleAddTaskList.bind(this);
+		this.handleTaskListSubmit = this.handleTaskListSubmit.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 	componentWillMount() {
 		TaskListsActions.loadTaskLists();
@@ -36,6 +42,17 @@ class TaskListsPage extends React.Component {
 	}
 	componentWillUnmount() {
 		TaskListsStore.removeChangeListener(this._onChange);
+	}
+	handleAddTaskList() {
+		this.setState({ isCreatingTaskList: true });
+	}
+	handleClose() {
+		this.setState({ isCreatingTaskList: false });
+	}
+	handleTaskListSubmit(taskLists) {
+		TaskListsActions.createTaskList(taskLists);
+
+		this.setState({ isCreatingTaskList: false });
 	}
 	render() {
 		const { router } = this.context;
@@ -70,6 +87,11 @@ class TaskListsPage extends React.Component {
 									/>
 								)
 							}
+							<ListItem
+								leftIcon={<ContentAdd />}
+								primaryText="Create new list"
+								onClick={this.handleAddTaskList}
+							/>
 						</List>
 						<Divider></Divider>
 						<List className="task-lists__list">
@@ -82,7 +104,13 @@ class TaskListsPage extends React.Component {
 					</List>
 				</div>
 				<div className="task-lists__tasks">
+					{this.props.children}
 				</div>
+				<TaskListCreateModal 
+					isOpen={this.state.isCreatingTaskList}
+					onClose={this.handleClose}
+					onSubmit={this.handleTaskListSubmit}
+				/>
 			</div>
 		);
 	}

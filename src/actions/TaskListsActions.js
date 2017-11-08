@@ -18,6 +18,21 @@ const TaskListsActions = {
 				error: err
 			});
 		});
+	},
+	createTaskList(params) {
+		api.insertTaskList({ title: params.name })
+		.then(data => {
+			AppDispatcher.dispatch({
+				type: AppConstants.TASK_LIST_CREATE_SUCCESS,
+				taskList: data
+			});
+		})
+		.catch(err => {
+			AppDispatcher.dispatch({
+				type: AppConstants.TASK_LIST_CREATE_FAIL,
+				error: err
+			});
+		})
 	}
 }
 

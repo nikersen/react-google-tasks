@@ -27,5 +27,14 @@ export default {
 		return new Promise((resolve, reject) => {
 			request.execute(resp => resolve(resp));
 		});
+	},
+	insertTaskList({ title }) {
+		const request = gapi.client.tasks.tasklists.insert({
+			title: title
+		});
+
+		return new Promise((resolve, reject) => {
+			request.execute(resp => resolve(resp));
+		});
 	}
 }
